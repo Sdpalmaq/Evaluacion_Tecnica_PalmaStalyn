@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import BPartnerList from './components/BPartnerList';
 import BPartnerForm from './components/BPartnerForm';
+import './index.css';
 
 function App() {
   const [refreshTrigger, setRefreshTrigger] = useState(0);
@@ -23,7 +24,7 @@ function App() {
             🚀 Speedy ERP
           </h1>
           <p className="text-lg text-gray-600">
-            Sistema de Gestión de Terceros - iDempiere
+            Sistema de Gestión de Terceros 
           </p>
         </header>
 

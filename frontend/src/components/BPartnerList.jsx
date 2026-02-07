@@ -11,14 +11,14 @@ function BPartnerList({ refreshTrigger }) {
         fetchBPartners();
     }, [refreshTrigger]);
 
-    const fetchBPartners = async () => {
+    const fetchBPartners = async (search = '') => {
         try {
             setLoading(true);
             setError(null);
             const response = await bpartnerService.getAll(search);
             setBpartners(response.data);
         } catch (err) {
-            setError(err.message || 'Error fetching business partners');
+            setError(err.message || 'Error al cargar los terceros');
         } finally {
             setLoading(false);
         }
@@ -29,14 +29,14 @@ function BPartnerList({ refreshTrigger }) {
         fetchBPartners(searchTerm);
     };
 
-    const handleSearchChange = () => {
+    const handleClearSearch = () => {
         setSearchTerm('');
         fetchBPartners('');
     };
 
     if (loading) {
         return (
-            <div className="gb-white rounded-lg shadow p-6">
+            <div className="bg-white rounded-lg shadow p-6">
                 <div className='flex justify-center items-center py-8'>
                     <div className='animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600'></div>
                 </div>
@@ -46,11 +46,11 @@ function BPartnerList({ refreshTrigger }) {
 
     return (
         <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-2xl font-semibold mb-4">
+            <h2 className="text-2xl text-black font-semibold mb-4">
                 📋 Listado de Terceros
             </h2>
 
-            <form onSubmit={handleSearch} className="flex gap-2 mb-6 flex-wrap">
+            <form onSubmit={handleSearch} className="flex text-black gap-2 mb-6 flex-wrap">
                 <input
                     type="text"
                     className="flex-1 min-w-50 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -68,15 +68,16 @@ function BPartnerList({ refreshTrigger }) {
                     <button
                         type="button"
                         className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors font-medium"
-                        onClick={handleSearchChange}
+                        onClick={handleClearSearch}
                     >
-                        Limpiar
+                        ✕ Limpiar
                     </button>
                 )}
             </form>
 
             {error && (
                 <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-4 flex items-center gap-2">
+                    <span>⚠️</span>
                     <span>{error}</span>
                 </div>
             )}

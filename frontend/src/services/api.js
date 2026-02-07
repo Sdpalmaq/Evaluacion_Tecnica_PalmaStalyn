@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { get, search } from '../../../backend/src/routes';
-import { create } from '../../../backend/src/models/BPartnerModel';
 
 const API_BASE_URL = 'http://localhost:3000/api';
 

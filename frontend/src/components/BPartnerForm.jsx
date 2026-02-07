@@ -1,11 +1,11 @@
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect } from 'react';
 import { bpartnerService } from '../services/api';
 
 function BPartnerForm({ onSuccess }) {
     const [formData, setFormData] = useState({
         value: '',
         name: '',
-        taxid: '',
+        taxId: '',  // ✅ CORRECTO: camelCase
         groupId: '',
     });
     const [groups, setGroups] = useState([]);
@@ -24,8 +24,8 @@ function BPartnerForm({ onSuccess }) {
             setLoadingGroups(true);
             const response = await bpartnerService.getGroups();
             setGroups(response.data);
-        } catch (error) {
-            setError('Error al cargar grupos: ' + (error.message || 'Error desconocido'));
+        } catch (err) {
+            setError('Error al cargar grupos: ' + (err.message || 'Error desconocido'));
         } finally {
             setLoadingGroups(false);
         }
@@ -57,8 +57,8 @@ function BPartnerForm({ onSuccess }) {
             errors.name = 'El nombre es obligatorio';
         }
 
-        if (!formData.taxid.trim()) {
-            errors.taxid = 'El RUC/Cédula es obligatorio';
+        if (!formData.taxId.trim()) {
+            errors.taxId = 'El RUC/Cédula es obligatorio';
         } else if (!/^\d+$/.test(formData.taxId)) {
             errors.taxId = 'La identificación solo debe contener números';
         } else if (formData.taxId.length !== 10 && formData.taxId.length !== 13) {
@@ -87,7 +87,7 @@ function BPartnerForm({ onSuccess }) {
 
             const response = await bpartnerService.create(formData);
 
-            setSuccess(`Tercero creado con exito: ${response.data.name}`);
+            setSuccess(`✅ Tercero creado exitosamente: ${response.data.name}`);
             setFormData({
                 value: '',
                 name: '',
@@ -101,7 +101,7 @@ function BPartnerForm({ onSuccess }) {
                 }, 1500);
             }
         } catch (err) {
-            setError(err.message || 'Error creando el tercero');
+            setError(err.message || 'Error al crear el tercero');
         } finally {
             setLoading(false);
         }
@@ -122,7 +122,7 @@ function BPartnerForm({ onSuccess }) {
     return (
         <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-2xl font-semibold mb-6">
-                Registrar Nuevo Tercero
+                ➕ Registrar Nuevo Tercero
             </h2>
 
             {success && (
@@ -149,7 +149,7 @@ function BPartnerForm({ onSuccess }) {
                         <input
                             type="text"
                             name="value"
-                            className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${validationErrors.value
+                            className={`w-full text-black px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${validationErrors.value
                                 ? 'border-red-500 focus:ring-red-500'
                                 : 'border-gray-300 focus:ring-blue-500'
                                 }`}
@@ -171,7 +171,7 @@ function BPartnerForm({ onSuccess }) {
                         <input
                             type="text"
                             name="name"
-                            className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${validationErrors.name
+                            className={`w-full text-black px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${validationErrors.name
                                 ? 'border-red-500 focus:ring-red-500'
                                 : 'border-gray-300 focus:ring-blue-500'
                                 }`}
@@ -193,7 +193,7 @@ function BPartnerForm({ onSuccess }) {
                         <input
                             type="text"
                             name="taxId"
-                            className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${validationErrors.taxId
+                            className={`w-full text-black px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${validationErrors.taxId
                                 ? 'border-red-500 focus:ring-red-500'
                                 : 'border-gray-300 focus:ring-blue-500'
                                 }`}
@@ -221,7 +221,7 @@ function BPartnerForm({ onSuccess }) {
                         ) : (
                             <select
                                 name="groupId"
-                                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${validationErrors.groupId
+                                className={`w-full text-black px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${validationErrors.groupId
                                     ? 'border-red-500 focus:ring-red-500'
                                     : 'border-gray-300 focus:ring-blue-500'
                                     }`}
