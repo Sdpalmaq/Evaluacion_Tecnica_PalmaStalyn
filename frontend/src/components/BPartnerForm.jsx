@@ -5,7 +5,7 @@ function BPartnerForm({ onSuccess }) {
     const [formData, setFormData] = useState({
         value: '',
         name: '',
-        taxId: '',  // ✅ CORRECTO: camelCase
+        taxId: '',
         groupId: '',
     });
     const [groups, setGroups] = useState([]);
@@ -120,150 +120,249 @@ function BPartnerForm({ onSuccess }) {
     };
 
     return (
-        <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-2xl font-semibold mb-6">
-                ➕ Registrar Nuevo Tercero
-            </h2>
-
-            {success && (
-                <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg mb-4 flex items-center gap-2">
-                    <span>✓</span>
-                    <span>{success}</span>
-                </div>
-            )}
-
-            {error && (
-                <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-4 flex items-center gap-2">
-                    <span>⚠️</span>
-                    <span>{error}</span>
-                </div>
-            )}
-
-            <form onSubmit={handleSubmit}>
-                <div className="space-y-5">
-                    {/* Código */}
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+            {/* Header del módulo */}
+            <div className="bg-gradient-to-r from-green-500 to-green-600 px-6 sm:px-8 py-6">
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                        <span className="text-2xl">➕</span>
+                    </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Código <span className="text-red-500">*</span>
+                        <h2 className="text-xl sm:text-2xl font-bold text-white">
+                            Registrar Nuevo Tercero
+                        </h2>
+                        <p className="text-green-100 text-sm mt-0.5">
+                            Complete el formulario con los datos del socio de negocio
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div className="p-4 sm:p-6 lg:p-8">
+                {/* Alertas */}
+                {success && (
+                    <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-300 rounded-xl p-4 mb-6 animate-slideIn">
+                        <div className="flex items-start gap-3">
+                            <div className="flex-shrink-0 w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
+                                <span className="text-white text-xl">✓</span>
+                            </div>
+                            <div className="flex-1">
+                                <p className="text-green-900 font-semibold">¡Éxito!</p>
+                                <p className="text-green-700 text-sm mt-1">{success}</p>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {error && (
+                    <div className="bg-gradient-to-r from-red-50 to-rose-50 border-2 border-red-300 rounded-xl p-4 mb-6 animate-slideIn">
+                        <div className="flex items-start gap-3">
+                            <div className="flex-shrink-0 w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
+                                <span className="text-white text-xl">⚠</span>
+                            </div>
+                            <div className="flex-1">
+                                <p className="text-red-900 font-semibold">Error</p>
+                                <p className="text-red-700 text-sm mt-1">{error}</p>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Formulario */}
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* Código */}
+                    <div className="group">
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            <span className="flex items-center gap-2">
+                                <span>Código</span>
+                                <span className="text-red-500">*</span>
+                            </span>
                         </label>
-                        <input
-                            type="text"
-                            name="value"
-                            className={`w-full text-black px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${validationErrors.value
-                                ? 'border-red-500 focus:ring-red-500'
-                                : 'border-gray-300 focus:ring-blue-500'
-                                }`}
-                            placeholder="Ej: CLIE001"
-                            value={formData.value}
-                            onChange={handleChange}
-                            disabled={loading}
-                        />
+                        <div className="relative">
+                            <input
+                                type="text"
+                                name="value"
+                                className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all text-gray-900 ${validationErrors.value
+                                        ? 'border-red-400 focus:border-red-500 focus:ring-red-100 bg-red-50'
+                                        : 'border-gray-200 focus:border-blue-500 focus:ring-blue-100'
+                                    }`}
+                                placeholder="Ej: CLIE001"
+                                value={formData.value}
+                                onChange={handleChange}
+                                disabled={loading}
+                            />
+                            {validationErrors.value && (
+                                <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                                    <span className="text-red-500 text-xl">⚠</span>
+                                </div>
+                            )}
+                        </div>
                         {validationErrors.value && (
-                            <p className="text-red-500 text-sm mt-1">{validationErrors.value}</p>
+                            <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
+                                <span>•</span>
+                                <span>{validationErrors.value}</span>
+                            </p>
                         )}
                     </div>
 
                     {/* Nombre */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Nombre Completo <span className="text-red-500">*</span>
+                    <div className="group">
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            <span className="flex items-center gap-2">
+                                <span>Nombre Completo</span>
+                                <span className="text-red-500">*</span>
+                            </span>
                         </label>
-                        <input
-                            type="text"
-                            name="name"
-                            className={`w-full text-black px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${validationErrors.name
-                                ? 'border-red-500 focus:ring-red-500'
-                                : 'border-gray-300 focus:ring-blue-500'
-                                }`}
-                            placeholder="Ej: Juan Pérez"
-                            value={formData.name}
-                            onChange={handleChange}
-                            disabled={loading}
-                        />
+                        <div className="relative">
+                            <input
+                                type="text"
+                                name="name"
+                                className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all text-gray-900 ${validationErrors.name
+                                        ? 'border-red-400 focus:border-red-500 focus:ring-red-100 bg-red-50'
+                                        : 'border-gray-200 focus:border-blue-500 focus:ring-blue-100'
+                                    }`}
+                                placeholder="Ej: Juan Pérez García"
+                                value={formData.name}
+                                onChange={handleChange}
+                                disabled={loading}
+                            />
+                            {validationErrors.name && (
+                                <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                                    <span className="text-red-500 text-xl">⚠</span>
+                                </div>
+                            )}
+                        </div>
                         {validationErrors.name && (
-                            <p className="text-red-500 text-sm mt-1">{validationErrors.name}</p>
+                            <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
+                                <span>•</span>
+                                <span>{validationErrors.name}</span>
+                            </p>
                         )}
                     </div>
 
                     {/* Identificación */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            RUC / Cédula <span className="text-red-500">*</span>
+                    <div className="group">
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            <span className="flex items-center gap-2">
+                                <span>RUC / Cédula</span>
+                                <span className="text-red-500">*</span>
+                            </span>
                         </label>
-                        <input
-                            type="text"
-                            name="taxId"
-                            className={`w-full text-black px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${validationErrors.taxId
-                                ? 'border-red-500 focus:ring-red-500'
-                                : 'border-gray-300 focus:ring-blue-500'
-                                }`}
-                            placeholder="10 dígitos (Cédula) o 13 dígitos (RUC)"
-                            value={formData.taxId}
-                            onChange={handleChange}
-                            disabled={loading}
-                            maxLength="13"
-                        />
-                        {validationErrors.taxId && (
-                            <p className="text-red-500 text-sm mt-1">{validationErrors.taxId}</p>
+                        <div className="relative">
+                            <input
+                                type="text"
+                                name="taxId"
+                                className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all text-gray-900 ${validationErrors.taxId
+                                        ? 'border-red-400 focus:border-red-500 focus:ring-red-100 bg-red-50'
+                                        : 'border-gray-200 focus:border-blue-500 focus:ring-blue-100'
+                                    }`}
+                                placeholder="1234567890 ó 1234567890001"
+                                value={formData.taxId}
+                                onChange={handleChange}
+                                disabled={loading}
+                                maxLength="13"
+                            />
+                            {validationErrors.taxId && (
+                                <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                                    <span className="text-red-500 text-xl">⚠</span>
+                                </div>
+                            )}
+                        </div>
+                        {validationErrors.taxId ? (
+                            <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
+                                <span>•</span>
+                                <span>{validationErrors.taxId}</span>
+                            </p>
+                        ) : (
+                            <p className="text-gray-500 text-xs mt-2 flex items-center gap-1">
+                                <span>ℹ️</span>
+                                <span>10 dígitos para Cédula o 13 dígitos para RUC</span>
+                            </p>
                         )}
-                        <p className="text-gray-500 text-xs mt-1">
-                            Se validará el formato de RUC/Cédula ecuatoriana
-                        </p>
                     </div>
 
                     {/* Grupo */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Grupo de Tercero <span className="text-red-500">*</span>
+                    <div className="group">
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            <span className="flex items-center gap-2">
+                                <span>Grupo de Tercero</span>
+                                <span className="text-red-500">*</span>
+                            </span>
                         </label>
                         {loadingGroups ? (
-                            <div className="text-gray-500 py-2">Cargando grupos...</div>
+                            <div className="flex items-center gap-3 text-gray-600 py-3 px-4 bg-gray-50 rounded-xl border-2 border-gray-200">
+                                <div className="animate-spin rounded-full h-5 w-5 border-2 border-blue-300 border-t-blue-600"></div>
+                                <span className="text-sm">Cargando grupos...</span>
+                            </div>
                         ) : (
-                            <select
-                                name="groupId"
-                                className={`w-full text-black px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${validationErrors.groupId
-                                    ? 'border-red-500 focus:ring-red-500'
-                                    : 'border-gray-300 focus:ring-blue-500'
-                                    }`}
-                                value={formData.groupId}
-                                onChange={handleChange}
-                                disabled={loading}
-                            >
-                                <option value="">Seleccione un grupo</option>
-                                {groups.map((group) => (
-                                    <option key={group.ID} value={group.ID}>
-                                        {group.NAME} {group.DESCRIPTION ? `- ${group.DESCRIPTION}` : ''}
-                                    </option>
-                                ))}
-                            </select>
-                        )}
-                        {validationErrors.groupId && (
-                            <p className="text-red-500 text-sm mt-1">{validationErrors.groupId}</p>
+                            <>
+                                <div className="relative">
+                                    <select
+                                        name="groupId"
+                                        className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all appearance-none text-gray-900 ${validationErrors.groupId
+                                                ? 'border-red-400 focus:border-red-500 focus:ring-red-100 bg-red-50'
+                                                : 'border-gray-200 focus:border-blue-500 focus:ring-blue-100'
+                                            }`}
+                                        value={formData.groupId}
+                                        onChange={handleChange}
+                                        disabled={loading}
+                                    >
+                                        <option value="">Seleccione un grupo</option>
+                                        {groups.map((group) => (
+                                            <option key={group.ID} value={group.ID}>
+                                                {group.NAME} {group.DESCRIPTION ? `- ${group.DESCRIPTION}` : ''}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                                        <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                {validationErrors.groupId && (
+                                    <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
+                                        <span>•</span>
+                                        <span>{validationErrors.groupId}</span>
+                                    </p>
+                                )}
+                            </>
                         )}
                     </div>
 
                     {/* Botones */}
-                    <div className="flex gap-3 pt-2">
+                    <div className="flex flex-col sm:flex-row gap-3 pt-4">
                         <button
                             type="submit"
-                            className="flex-1 px-6 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="flex-1 px-6 py-3.5 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl hover:from-green-600 hover:to-green-700 transition-all font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-lg flex items-center justify-center gap-2"
                             disabled={loading || loadingGroups}
                         >
-                            {loading ? '⏳ Guardando...' : '💾 Guardar Tercero'}
+                            {loading ? (
+                                <>
+                                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
+                                    <span>Guardando...</span>
+                                </>
+                            ) : (
+                                <>
+                                    <span className="text-xl">💾</span>
+                                    <span>Guardar Tercero</span>
+                                </>
+                            )}
                         </button>
 
                         {!loading && (
                             <button
                                 type="button"
-                                className="px-6 py-2.5 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors font-medium"
+                                className="flex-1 sm:flex-none px-6 py-3.5 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition-all font-semibold flex items-center justify-center gap-2"
                                 onClick={handleClear}
                             >
-                                🔄 Limpiar
+                                <span className="text-xl">🔄</span>
+                                <span>Limpiar</span>
                             </button>
                         )}
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     );
 }
